@@ -3,15 +3,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class JavaFIleReaderGUI extends JFrame {
+public class Main extends JFrame {
     private JTextArea textArea1, textArea2;
     private JButton openButton;
     private JPanel currentPanel;
 
-    public JavaFIleReaderGUI() {
+    public Main() {
         initComponents();
     }
 
+    // Initializing UI Components
     private void initComponents() {
         setTitle("File Reader");
         setSize(new Dimension(1280, 720));
@@ -22,6 +23,7 @@ public class JavaFIleReaderGUI extends JFrame {
         add(currentPanel);
     }
 
+    // mainPanel serves as a container
     public JPanel mainPanel() {
         JPanel panel = new JPanel(null);
         panel.setBounds(0, 0, 1280, 720);
@@ -30,6 +32,7 @@ public class JavaFIleReaderGUI extends JFrame {
         return panel;
     }
 
+    // contentPanel serves as a holder of UI elements
     public JPanel contentPanel() {
         JPanel panel = new JPanel(null);
         panel.setBounds(30, 30, 1200, 620);
@@ -62,38 +65,27 @@ public class JavaFIleReaderGUI extends JFrame {
         panel.add(scrollPane2);
 
         openButton.addActionListener(new ActionListener() {
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showOpenDialog(JavaFIleReaderGUI.this);
+                int result = fileChooser.showOpenDialog(Main.this);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
-                    readFile(file);
+                    FileReaderUtility fileReaderUtility = new FileReaderUtility(textArea2); // Calls readFile in the FileReaderUtility class
+                    fileReaderUtility.readFile(file);
                     openButton.setEnabled(false); // Disable the button after opening a file
                 }
             }
         });
-
         return panel;
-    }
-
-    private void readFile(File file) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            textArea2.setText("");
-            String line;
-            while ((line = reader.readLine()) != null) {
-                textArea2.append(line + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new JavaFIleReaderGUI().setVisible(true);
+                new Main().setVisible(true);
             }
         });
     }
