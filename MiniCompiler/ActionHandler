@@ -1,0 +1,44 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+
+public class ActionHandler implements ActionListener {
+    private JButton openButton, clearButton;
+    private JTextArea fileArea;
+
+    public ActionHandler(JButton openButton, JButton clearButton, JTextArea fileArea) {
+        this.openButton = openButton;
+        this.clearButton = clearButton;
+        this.fileArea = fileArea;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == openButton) {
+            openFile();
+        } else if (e.getSource() == clearButton) {
+            clearFileArea();
+        }
+    }
+
+    private void openFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            FileReaderUtility fileReaderUtility = new FileReaderUtility(fileArea); // Calls readFile in the FileReaderUtility class
+            fileReaderUtility.readFile(file);
+            openButton.setEnabled(false); // Disable the button after opening a file
+            openButton.setBackground(new Color(0xB27087)); // Disabled button color
+        }
+    }
+
+    // Method to handle clearing the file area
+    private void clearFileArea() {
+        fileArea.setText(""); // Clears the text in fileArea
+        openButton.setEnabled(true); // Re-enables the openButton to choose a new file
+        openButton.setBackground(new Color(0xD83E76)); // Restore enabled color
+    }
+}
+
