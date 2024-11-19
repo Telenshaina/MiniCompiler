@@ -1,18 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 
 public class Main extends JFrame {
     private JLabel phases, result;
     private JTextArea resultArea, fileArea;
-    private JButton openButton, clearButton, lexicalButton, syntaxButton, semanticButton;
+    private JButton lexicalButton, syntaxButton, semanticButton, openButton, clearButton;
     private JPanel mainPanel;
 
     public Main() {
         initComponents();
     }
 
+    // Initializing UI Components
     private void initComponents() {
-        setTitle("Java Mini Compiler");
+        setTitle("File Reader");
         setSize(new Dimension(1280, 720));
         setResizable(false);
         setLocationRelativeTo(null);
@@ -22,22 +25,23 @@ public class Main extends JFrame {
         add(mainPanel);
     }
 
+    // mainPanel serves as a container
     public JPanel mainPanel() {
         JPanel panel = new JPanel(null);
         panel.setBounds(0, 0, 1280, 720);
-        panel.setBackground(new Color(0xF6F6F6));
-
+        panel.setBackground(new Color(0XF6F6F6));
         panel.add(contentPanel());
-
         return panel;
     }
 
+    // contentPanel serves as a holder of UI elements
     public JPanel contentPanel() {
         JPanel panel = new JPanel(null);
         panel.setBounds(30, 30, 1200, 620);
-        // panel.setBackground(Color.BLUE);
+        // panel.setBackground(Color.PINK);
         panel.setBackground(new Color(0xF6F6F6));
 
+        // Compiler Phases Buttons
         phases = new JLabel("Phases:");
         phases.setBounds(20, 5, 300, 60);
         phases.setForeground(Color.BLACK);
@@ -68,22 +72,6 @@ public class Main extends JFrame {
         semanticButton.setFocusable(false);
         panel.add(semanticButton);
 
-        openButton = new JButton("Open File");
-        openButton.setBounds(20, 420, 300, 60);
-        openButton.setBackground(new Color(0xD83E76)); // Initial color for enabled state
-        openButton.setForeground(Color.WHITE);
-        openButton.setFont(new Font("Arial", Font.BOLD, 12));
-        openButton.setFocusable(false);
-        panel.add(openButton);
-
-        clearButton = new JButton("Clear");
-        clearButton.setBounds(20, 500, 300, 60);
-        clearButton.setBackground(new Color(0xD83E76)); // Initial color for enabled state
-        clearButton.setForeground(Color.WHITE);
-        clearButton.setFont(new Font("Arial", Font.BOLD, 12));
-        clearButton.setFocusable(false);
-        panel.add(clearButton);
-
         // Result text area
         result = new JLabel("Result:");
         result.setBounds(20, 120, 300, 60);
@@ -100,6 +88,25 @@ public class Main extends JFrame {
         panel.add(result);
         panel.add(scrollPane1);
 
+        // Open File Button
+        openButton = new JButton("Open File");
+        openButton.setBounds(20, 420, 300, 60);
+        openButton.setBackground(new Color(0xD83E76)); // Initial color for enabled state
+        openButton.setForeground(Color.WHITE);
+        openButton.setFont(new Font("Arial", Font.BOLD, 12));
+        openButton.setFocusable(false);
+        panel.add(openButton);
+
+        // Clear Button
+        clearButton = new JButton("Clear");
+        clearButton.setBounds(20, 500, 300, 60);
+        clearButton.setBackground(new Color(0xD83E76));
+        clearButton.setForeground(Color.WHITE);
+        clearButton.setFont(new Font("Arial", Font.BOLD, 12));
+        clearButton.setFocusable(false);
+        clearButton.setEnabled(false); // Disabled by default, even with the default instructions is displayed
+        panel.add(clearButton);
+
         // Open file area
         fileArea = new JTextArea();
         fileArea.setBounds(380, 160, 800, 400);
@@ -113,11 +120,31 @@ public class Main extends JFrame {
         scrollPane2.setBounds(380, 160, 800, 400);
         panel.add(scrollPane2);
 
-        // Add action listeners using the ActionHandler class
-        ActionHandler actionHandler = new ActionHandler(openButton, clearButton, fileArea);
-        openButton.addActionListener(actionHandler);
-        clearButton.addActionListener(actionHandler);
+        openButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(Main.this);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    FileReaderUtility fileReaderUtility = new FileReaderUtility(fileArea); // Calls readFile in the FileReaderUtility class
+                    fileReaderUtility.readFile(file);
+                    openButton.setEnabled(false); // Disable the button after opening a file
+                    clearButton.setEnabled(true); // Enable clearButton after file is opened
+                    
+                }
+            }
+        });
 
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fileArea.setText(""); // Clears the text in fileArea
+                openButton.setEnabled(true); // Re-enables the openButton to choose a new file
+                openButton.setBackground(new Color(0xD83E76)); // Restore enabled color 
+                clearButton.setEnabled(false); // Disable clearButton when no file
+            }
+        });
         return panel;
     }
 
