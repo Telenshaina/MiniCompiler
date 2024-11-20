@@ -6,17 +6,19 @@ import javax.swing.*;
 public class ButtonActionHandler implements ActionListener {
     private Main main;
     private JTextArea fileArea, resultArea;
-    private JButton openButton, clearButton, lexicalButton, syntaxButton, semanticButton;
+    private JButton openButton, clearButton, credits, switchMode, lexicalButton, syntaxButton, semanticButton;
 
     // Constructor that takes the main GUI components
     public ButtonActionHandler(Main main, JTextArea fileArea, JTextArea resultArea, 
-                               JButton openButton, JButton clearButton, 
+                               JButton openButton, JButton clearButton, JButton credits, JButton switchMode,
                                JButton lexicalButton, JButton syntaxButton, JButton semanticButton) {
         this.main = main;
         this.fileArea = fileArea;
         this.resultArea = resultArea;
         this.openButton = openButton;
         this.clearButton = clearButton;
+        this.credits = credits;
+        this.switchMode = switchMode;
         this.lexicalButton = lexicalButton;
         this.syntaxButton = syntaxButton;
         this.semanticButton = semanticButton;
@@ -30,6 +32,10 @@ public class ButtonActionHandler implements ActionListener {
             openFile();
         } else if (source == clearButton) {
             clearFile();
+        } else if (source == credits) {
+            showCredits();
+        } else if (source == switchMode) {
+            switchMode();
         } else if (source == lexicalButton) {
             performLexicalAnalysis();
         } else if (source == syntaxButton) {
@@ -77,6 +83,14 @@ public class ButtonActionHandler implements ActionListener {
         semanticButton.setEnabled(false);
     }
 
+    private void showCredits() {
+        // Insert showCredits functionality
+    }
+
+    private void switchMode() {
+        // Insert switchMode functionality
+    }
+
     // Placeholder for lexical analysis
     private void performLexicalAnalysis() {
         // Insert lexical analysis functionality here
@@ -101,7 +115,7 @@ public class ButtonActionHandler implements ActionListener {
     // Method to append text to the resultArea
     private void appendResult(String message) {
         resultArea.setText("");
-        resultArea.setForeground(new Color(0x0D7640));
+        resultArea.setForeground(new Color(0X129F57));
         resultArea.append("\nYour code has passed the\n" + message + "!");
     }
 }
