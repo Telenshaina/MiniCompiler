@@ -46,7 +46,7 @@ public class ButtonActionHandler implements ActionListener {
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
 
-            // Only accepts *.txt files
+            // Only accepts *.java files
             if (isValidFile(file)) {
             FileReaderUtility fileReaderUtility = new FileReaderUtility(fileArea);
             fileReaderUtility.readFile(file);
@@ -61,7 +61,7 @@ public class ButtonActionHandler implements ActionListener {
 
     private boolean isValidFile(File file) {
         String fileName = file.getName().toLowerCase();
-        return fileName.endsWith(".txt");
+        return fileName.endsWith(".java");
     }
 
     // Handle clearButton action
