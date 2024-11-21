@@ -15,12 +15,22 @@ public class UIHelper {
         return button;
     }
 
-    public static JLabel createLabel(String content, int x, int y, int width, int height) {
-        JLabel label = new JLabel(content);
+    public static JLabel createLabel(String text, int x, int y, int width, int height) {
+        JLabel label = new JLabel(text);
         label.setBounds(x, y, width, height);
-        label.setForeground(Color.BLACK);
+        label.setForeground(new Color(0x3D052B));
         label.setFont(new Font("Verdana", Font.BOLD, 15));
         
         return label;
+    }
+
+    public static JButton createHeaderComponent(String text, int x, int y, int width, int height) {
+        // JButton button = new JButton(text);
+        ClearButton button = new ClearButton(text, width, height);
+        button.setBounds(x, y, width, height);
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Verdana", Font.BOLD, 13));
+
+        return button;
     }
 }
