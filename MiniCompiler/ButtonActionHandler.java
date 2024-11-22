@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.List;
 import javax.swing.*;
 
 public class ButtonActionHandler implements ActionListener {
@@ -8,7 +9,7 @@ public class ButtonActionHandler implements ActionListener {
     private JTextArea fileArea, resultArea;
     private JButton openButton, clearButton, credits, switchMode, lexicalButton, syntaxButton, semanticButton;
 
-    // Constructor that takes the main GUI components
+    // Constructor to initialize GUI components
     public ButtonActionHandler(Main main, JTextArea fileArea, JTextArea resultArea, 
                                JButton openButton, JButton clearButton, JButton credits, JButton switchMode,
                                JButton lexicalButton, JButton syntaxButton, JButton semanticButton) {
@@ -52,15 +53,15 @@ public class ButtonActionHandler implements ActionListener {
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
 
-            // Only accepts *.java files
             if (isValidFile(file)) {
-            FileReaderUtility fileReaderUtility = new FileReaderUtility(fileArea);
-            fileReaderUtility.readFile(file);
-            openButton.setEnabled(false);
-            clearButton.setEnabled(true);
-            lexicalButton.setEnabled(true);
+                FileReaderUtility fileReaderUtility = new FileReaderUtility(fileArea);
+                fileReaderUtility.readFile(file);
+
+                openButton.setEnabled(false);
+                clearButton.setEnabled(true);
+                lexicalButton.setEnabled(true);
             } else {
-                JOptionPane.showMessageDialog(main, "Invalid file format!", "Error", JOptionPane.ERROR_MESSAGE);
+                CustomPopUp.showInvalidFileMessage(main);
             }
         }
     }
@@ -76,7 +77,7 @@ public class ButtonActionHandler implements ActionListener {
         resultArea.setText(""); // Clears the text in resultArea
         openButton.setEnabled(true); // Re-enables the openButton to choose a new file
 
-        // All other buttons are disabled
+        // Disable other buttons
         clearButton.setEnabled(false);
         lexicalButton.setEnabled(false);
         syntaxButton.setEnabled(false);
@@ -84,38 +85,85 @@ public class ButtonActionHandler implements ActionListener {
     }
 
     private void showCredits() {
-        // Insert showCredits functionality
+        CustomPopUp.showCreditsMessage(main);
     }
 
     private void switchMode() {
         // Insert switchMode functionality
     }
 
-    // Placeholder for lexical analysis
+    // Perform lexical analysis
     private void performLexicalAnalysis() {
-        // Insert lexical analysis functionality here
-        appendResult("LEXICAL ANALYSIS");
-        lexicalButton.setEnabled(false);
-        syntaxButton.setEnabled(true);
+        LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
+        String code = fileArea.getText();
+    
+        // Split the code into lines for processing
+        String[] lines = code.split("\n");
+    
+        StringBuilder resultBuilder = new StringBuilder();
+        // boolean allLinesProcessed = true;  // To track if any line has a fatal error
+        boolean hasError = false;  // Track if there's at least one error
+    
+        try {
+            for (int i = 0; i < lines.length; i++) {
+                String line = lines[i].trim();
+                if (!line.isBlank()) {
+                    try {
+                        // Try to tokenize the line
+                        List<String> tokens = lexicalAnalyzer.tokenize(line);
+                        resultBuilder.append("Line " + (i + 1) + ": \"").append(line).append("\"\n");
+                        resultBuilder.append("Tokens: ").append(tokens).append("\n");
+                        resultBuilder.append("No error\n\n");  // No error for this line
+                    } catch (Exception e) {
+                        // If an error occurs, show the error message for this line
+                        resultBuilder.append("Line " + (i + 1) + ": \"").append(line).append("\"\n");
+                        resultBuilder.append("Error: ").append(e.getMessage()).append("\n\n");
+                        hasError = true;  // At least one line has an error
+                    }
+                }
+            }
+    
+            // If any error occurred, set result to red and disable the syntax button
+            if (hasError) {
+                resultArea.setForeground(Color.RED);
+                resultBuilder.append("LEXICAL ANALYSIS FAILED\n\n");
+                resultArea.setText(resultBuilder.toString());
+                syntaxButton.setEnabled(false);  // Disable the syntax button on error
+            } else {
+                // If no errors, set result to green and show success
+                resultArea.setForeground(new Color(0x129F57));  // Green color for success
+                resultBuilder.append("Your Code has Passed the\nLEXICAL ANALYSIS\n\n");
+                resultArea.setText(resultBuilder.toString());
+                syntaxButton.setEnabled(true);  // Enable the syntax button
+            }
+    
+            lexicalButton.setEnabled(false);  // Disable lexical button after analysis
+    
+        } catch (Exception e) {
+            // Display a general error message if the entire analysis failed
+            resultArea.setForeground(Color.RED);
+            resultArea.setText("LEXICAL ANALYSIS FAILED\n" + e.getMessage());
+            lexicalButton.setEnabled(true);
+            syntaxButton.setEnabled(false);  // Disable syntax analysis in case of a fatal failure
+        }
     }
-
+    // Perform syntax analysis
     private void performSyntaxAnalysis() {
-        // Insert syntax analysis functionality here
         appendResult("SYNTAX ANALYSIS");
         syntaxButton.setEnabled(false);
         semanticButton.setEnabled(true);
     }
 
+    // Perform semantic analysis
     private void performSemanticAnalysis() {
-        // Insert semantic analysis functionality here
         appendResult("SEMANTIC ANALYSIS");
         semanticButton.setEnabled(false);
     }
 
-    // Method to append text to the resultArea
+    // Method to append results to the resultArea
     private void appendResult(String message) {
         resultArea.setText("");
-        resultArea.setForeground(new Color(0X129F57));
+        resultArea.setForeground(new Color(0X129F57)); // Green color for success
         resultArea.append("\nYour code has passed the\n" + message + "!");
     }
 }
