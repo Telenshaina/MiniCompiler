@@ -91,13 +91,50 @@ public class ButtonActionHandler implements ActionListener {
         // Insert switchMode functionality
     }
 
-    // Placeholder for lexical analysis
+    // derived from aira's code
     private void performLexicalAnalysis() {
-        // Insert lexical analysis functionality here
-        appendResult("LEXICAL ANALYSIS");
-        lexicalButton.setEnabled(false);
-        syntaxButton.setEnabled(true);
+        // Retrieve text from fileArea
+        String fileContent = fileArea.getText();
+        String[] lines = fileContent.split("\\r?\\n");
+        
+        // Perform lexical analysis on each line
+        StringBuilder analysisResults = new StringBuilder();
+        boolean hasError = false; // Flag to track errors
+        
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            if (!line.isBlank()) {
+                String result = LexicalAnalysis.analyze(line);
+                analysisResults.append("Line ").append(i + 1).append(":").append("\n");
+                analysisResults.append(result).append("\n");
+    
+                // Append a separator after each analysis (except the last line)
+                if (i < lines.length - 1) {
+                    analysisResults.append("\n-------------------------------\n\n");
+                }
+                
+                // Check for errors in the result
+                if (result.contains("Error:")) {
+                    hasError = true; // Set the flag if an error is found
+                }
+            }
+        }
+        
+        // Update the resultArea with the analysis results
+        resultArea.setText(analysisResults.toString());
+        
+        // Set the text color based on the presence of errors
+        if (hasError) {
+            resultArea.setForeground(new Color(0xfa5151)); // Red for errors
+        } else {
+            resultArea.setForeground(new Color(0X129F57)); // Green for success
+            syntaxButton.setEnabled(true); // Enable Syntax Analysis if no errors
+        }
+        
+        lexicalButton.setEnabled(false); // Disable Lexical Analysis button after analysis
     }
+    
+    
 
     private void performSyntaxAnalysis() {
         // Insert syntax analysis functionality here
