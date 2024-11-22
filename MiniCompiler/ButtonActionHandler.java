@@ -85,17 +85,11 @@ public class ButtonActionHandler implements ActionListener {
     }
 
     private void showCredits() {
-        JOptionPane.showMessageDialog(main, 
-            "This program performs lexical analysis on Java variable declarations.", 
-            "Credits", 
-            JOptionPane.INFORMATION_MESSAGE);
+        // Insert showCredits functionality
     }
 
     private void switchMode() {
-        JOptionPane.showMessageDialog(main, 
-            "Switching modes is currently not implemented!", 
-            "Switch Mode", 
-            JOptionPane.WARNING_MESSAGE);
+        // Insert switchMode functionality
     }
 
     // Perform lexical analysis
