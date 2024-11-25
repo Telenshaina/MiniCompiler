@@ -7,11 +7,11 @@ import javax.swing.*;
 public class ButtonActionHandler implements ActionListener {
     private Main main;
     private JTextArea fileArea, resultArea;
-    private JButton openButton, clearButton, credits, switchMode, lexicalButton, syntaxButton, semanticButton;
+    private JButton openButton, clearButton, credits, lexicalButton, syntaxButton, semanticButton;
 
     // Constructor to initialize GUI components
     public ButtonActionHandler(Main main, JTextArea fileArea, JTextArea resultArea, 
-                               JButton openButton, JButton clearButton, JButton credits, JButton switchMode,
+                               JButton openButton, JButton clearButton, JButton credits,
                                JButton lexicalButton, JButton syntaxButton, JButton semanticButton) {
         this.main = main;
         this.fileArea = fileArea;
@@ -19,7 +19,6 @@ public class ButtonActionHandler implements ActionListener {
         this.openButton = openButton;
         this.clearButton = clearButton;
         this.credits = credits;
-        this.switchMode = switchMode;
         this.lexicalButton = lexicalButton;
         this.syntaxButton = syntaxButton;
         this.semanticButton = semanticButton;
@@ -35,8 +34,6 @@ public class ButtonActionHandler implements ActionListener {
             clearFile();
         } else if (source == credits) {
             showCredits();
-        } else if (source == switchMode) {
-            switchMode();
         } else if (source == lexicalButton) {
             performLexicalAnalysis();
         } else if (source == syntaxButton) {
@@ -86,10 +83,6 @@ public class ButtonActionHandler implements ActionListener {
 
     private void showCredits() {
         CustomPopUp.showCreditsMessage(main);
-    }
-
-    private void switchMode() {
-        // Insert switchMode functionality
     }
 
     // Perform lexical analysis
@@ -148,11 +141,6 @@ public class ButtonActionHandler implements ActionListener {
         }
     }
     
-    
-    
-    
-
-    // Perform syntax analysis
     // Perform syntax analysis
     private void performSyntaxAnalysis() {
         String code = fileArea.getText();
@@ -168,7 +156,6 @@ public class ButtonActionHandler implements ActionListener {
         } else {
             resultArea.setForeground(new Color(0x129F57));  // Set text color to green on success
         }
-
         syntaxButton.setEnabled(false);  // Disable syntax button after analysis
         semanticButton.setEnabled(true); // Enable semantic analysis
     }
@@ -189,8 +176,6 @@ public class ButtonActionHandler implements ActionListener {
         } else {
             resultArea.setForeground(new Color(0x129F57));  // Set text color to green on success
         }
-
         semanticButton.setEnabled(false); // Disable semantic button after analysis
     }
-
 }
