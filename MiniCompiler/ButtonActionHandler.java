@@ -7,11 +7,11 @@ import javax.swing.*;
 public class ButtonActionHandler implements ActionListener {
     private Main main;
     private JTextArea fileArea, resultArea;
-    private JButton openButton, clearButton, credits, switchMode, lexicalButton, syntaxButton, semanticButton;
+    private JButton openButton, clearButton, credits, lexicalButton, syntaxButton, semanticButton;
 
     // Constructor to initialize GUI components
     public ButtonActionHandler(Main main, JTextArea fileArea, JTextArea resultArea, 
-                               JButton openButton, JButton clearButton, JButton credits, JButton switchMode,
+                               JButton openButton, JButton clearButton, JButton credits,
                                JButton lexicalButton, JButton syntaxButton, JButton semanticButton) {
         this.main = main;
         this.fileArea = fileArea;
@@ -19,7 +19,6 @@ public class ButtonActionHandler implements ActionListener {
         this.openButton = openButton;
         this.clearButton = clearButton;
         this.credits = credits;
-        this.switchMode = switchMode;
         this.lexicalButton = lexicalButton;
         this.syntaxButton = syntaxButton;
         this.semanticButton = semanticButton;
@@ -35,8 +34,6 @@ public class ButtonActionHandler implements ActionListener {
             clearFile();
         } else if (source == credits) {
             showCredits();
-        } else if (source == switchMode) {
-            switchMode();
         } else if (source == lexicalButton) {
             performLexicalAnalysis();
         } else if (source == syntaxButton) {
@@ -88,10 +85,6 @@ public class ButtonActionHandler implements ActionListener {
         CustomPopUp.showCreditsMessage(main);
     }
 
-    private void switchMode() {
-        // Insert switchMode functionality
-    }
-
     // Perform lexical analysis
     private void performLexicalAnalysis() {
         LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer();
@@ -101,7 +94,7 @@ public class ButtonActionHandler implements ActionListener {
         String[] lines = code.split("\n");
     
         StringBuilder resultBuilder = new StringBuilder();
-
+        // boolean allLinesProcessed = true;  // To track if any line has a fatal error
         boolean hasError = false;  // Track if there's at least one error
     
         try {
@@ -149,21 +142,39 @@ public class ButtonActionHandler implements ActionListener {
     }
     // Perform syntax analysis
     private void performSyntaxAnalysis() {
-        appendResult("SYNTAX ANALYSIS");
-        syntaxButton.setEnabled(false);
-        semanticButton.setEnabled(true);
+        String code = fileArea.getText();
+
+        SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer();
+        String analysisResult = syntaxAnalyzer.analyzeSyntax(code);
+
+        resultArea.setText(analysisResult);
+
+        // Check if there was an error in the analysis
+        if (analysisResult.contains("SYNTAX ANALYSIS FAILED")) {
+            resultArea.setForeground(Color.RED);  // Set text color to red on error
+        } else {
+            resultArea.setForeground(new Color(0x129F57));  // Set text color to green on success
+        }
+
+        syntaxButton.setEnabled(false);  // Disable syntax button after analysis
+        semanticButton.setEnabled(true); // Enable semantic analysis
     }
 
     // Perform semantic analysis
     private void performSemanticAnalysis() {
-        appendResult("SEMANTIC ANALYSIS");
-        semanticButton.setEnabled(false);
-    }
+        String code = fileArea.getText();
+        SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
+        String analysisResult = semanticAnalyzer.analyzeSemantic(code);
 
-    // Method to append results to the resultArea
-    private void appendResult(String message) {
-        resultArea.setText("");
-        resultArea.setForeground(new Color(0X129F57)); // Green color for success
-        resultArea.append("\nYour code has passed the\n" + message + "!");
+        resultArea.setText(analysisResult);
+
+        // Check if there was an error in the analysis
+        if (analysisResult.contains("SEMANTIC ANALYSIS FAILED")) {
+            resultArea.setForeground(Color.RED);  // Set text color to red on error
+        } else {
+            resultArea.setForeground(new Color(0x129F57));  // Set text color to green on success
+        }
+
+        semanticButton.setEnabled(false); // Disable semantic button after analysis
     }
 }
