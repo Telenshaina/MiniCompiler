@@ -92,7 +92,6 @@ public class ButtonActionHandler implements ActionListener {
     
         // Split the code into lines for processing
         String[] lines = code.split("\n");
-    
         StringBuilder resultBuilder = new StringBuilder();
         boolean hasError = false;  // Track if there's at least one error
     
@@ -128,7 +127,6 @@ public class ButtonActionHandler implements ActionListener {
                 resultArea.setText(resultBuilder.toString());
                 syntaxButton.setEnabled(true);  // Enable the syntax button
             }
-    
             lexicalButton.setEnabled(false);  // Disable lexical button after analysis
     
         } catch (Exception e) {
@@ -139,10 +137,10 @@ public class ButtonActionHandler implements ActionListener {
             syntaxButton.setEnabled(false);  // Disable syntax analysis in case of a fatal failure
         }
     }
+    
     // Perform syntax analysis
     private void performSyntaxAnalysis() {
         String code = fileArea.getText();
-
         SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer();
         String analysisResult = syntaxAnalyzer.analyzeSyntax(code);
 
@@ -154,7 +152,6 @@ public class ButtonActionHandler implements ActionListener {
         } else {
             resultArea.setForeground(new Color(0x129F57));  // Set text color to green on success
         }
-
         syntaxButton.setEnabled(false);  // Disable syntax button after analysis
         semanticButton.setEnabled(true); // Enable semantic analysis
     }
