@@ -61,7 +61,7 @@ public class ButtonActionHandler implements ActionListener {
                 clearButton.setEnabled(true);
                 lexicalButton.setEnabled(true);
             } else {
-                JOptionPane.showMessageDialog(main, "Invalid file format!", "Error", JOptionPane.ERROR_MESSAGE);
+                CustomPopUp.showInvalidFileMessage(main);
             }
         }
     }
@@ -85,17 +85,11 @@ public class ButtonActionHandler implements ActionListener {
     }
 
     private void showCredits() {
-        JOptionPane.showMessageDialog(main, 
-            "This program performs lexical analysis on Java variable declarations.", 
-            "Credits", 
-            JOptionPane.INFORMATION_MESSAGE);
+        CustomPopUp.showCreditsMessage(main);
     }
 
     private void switchMode() {
-        JOptionPane.showMessageDialog(main, 
-            "Switching modes is currently not implemented!", 
-            "Switch Mode", 
-            JOptionPane.WARNING_MESSAGE);
+        // Insert switchMode functionality
     }
 
     // Perform lexical analysis
@@ -107,7 +101,7 @@ public class ButtonActionHandler implements ActionListener {
         String[] lines = code.split("\n");
     
         StringBuilder resultBuilder = new StringBuilder();
-        //boolean allLinesProcessed = true;  // To track if any line has a fatal error
+
         boolean hasError = false;  // Track if there's at least one error
     
         try {
