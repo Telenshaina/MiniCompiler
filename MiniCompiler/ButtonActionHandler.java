@@ -1,3 +1,5 @@
+package compiler;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -92,9 +94,7 @@ public class ButtonActionHandler implements ActionListener {
     
         // Split the code into lines for processing
         String[] lines = code.split("\n");
-    
         StringBuilder resultBuilder = new StringBuilder();
-
         boolean hasError = false;  // Track if there's at least one error
     
         try {
@@ -129,7 +129,6 @@ public class ButtonActionHandler implements ActionListener {
                 resultArea.setText(resultBuilder.toString());
                 syntaxButton.setEnabled(true);  // Enable the syntax button
             }
-    
             lexicalButton.setEnabled(false);  // Disable lexical button after analysis
     
         } catch (Exception e) {
@@ -144,7 +143,6 @@ public class ButtonActionHandler implements ActionListener {
     // Perform syntax analysis
     private void performSyntaxAnalysis() {
         String code = fileArea.getText();
-
         SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer();
         String analysisResult = syntaxAnalyzer.analyzeSyntax(code);
 
@@ -159,8 +157,6 @@ public class ButtonActionHandler implements ActionListener {
         syntaxButton.setEnabled(false);  // Disable syntax button after analysis
         semanticButton.setEnabled(true); // Enable semantic analysis
     }
-
-    
 
     // Perform semantic analysis
     private void performSemanticAnalysis() {
