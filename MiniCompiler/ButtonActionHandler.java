@@ -61,7 +61,7 @@ public class ButtonActionHandler implements ActionListener {
                 clearButton.setEnabled(true);
                 lexicalButton.setEnabled(true);
             } else {
-                JOptionPane.showMessageDialog(main, "Invalid file format!", "Error", JOptionPane.ERROR_MESSAGE);
+                CustomPopUp.showInvalidFileMessage(main);
             }
         }
     }
@@ -85,7 +85,7 @@ public class ButtonActionHandler implements ActionListener {
     }
 
     private void showCredits() {
-        // Insert showCredits functionality
+        CustomPopUp.showCreditsMessage(main);
     }
 
     private void switchMode() {
@@ -101,7 +101,7 @@ public class ButtonActionHandler implements ActionListener {
         String[] lines = code.split("\n");
     
         StringBuilder resultBuilder = new StringBuilder();
-        boolean allLinesProcessed = true;  // To track if any line has a fatal error
+
         boolean hasError = false;  // Track if there's at least one error
     
         try {
