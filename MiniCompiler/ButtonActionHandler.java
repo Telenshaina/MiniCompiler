@@ -101,7 +101,7 @@ public class ButtonActionHandler implements ActionListener {
         String[] lines = code.split("\n");
     
         StringBuilder resultBuilder = new StringBuilder();
-        // boolean allLinesProcessed = true;  // To track if any line has a fatal error
+
         boolean hasError = false;  // Track if there's at least one error
     
         try {
