@@ -5,7 +5,7 @@ import javax.swing.border.*;
 public class Main extends JFrame {
     private JLabel phases, result;
     private JTextArea resultArea, fileArea;
-    private JButton lexicalButton, syntaxButton, semanticButton, openButton, clearButton, credits, switchMode;
+    private JButton lexicalButton, syntaxButton, semanticButton, openButton, clearButton, credits;
 
     public Main() {
         initComponents();
@@ -18,6 +18,9 @@ public class Main extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("icon.png"));
+        setIconImage(icon.getImage());
 
         add(mainPanel());
     }
@@ -40,11 +43,8 @@ public class Main extends JFrame {
         panel.setBounds(0, 0, 1280, 60);
         panel.setBackground(new Color(0xD83E76));
 
-        credits = UIHelper.createHeaderComponent("Credits", 925, 15, 100, 30);
+        credits = UIHelper.createHeaderComponent("Credits", 1125, 15, 100, 30);
         panel.add(credits);
-
-        switchMode = UIHelper.createHeaderComponent("Switch to Dark Mode", 1035, 15, 190, 30);
-        panel.add(switchMode);
 
         return panel;
     }
@@ -114,11 +114,10 @@ public class Main extends JFrame {
         panel.add(scrollPane2);
 
         ButtonActionHandler actionHandler = new ButtonActionHandler(this, fileArea, resultArea, openButton, clearButton, 
-                                                                    credits, switchMode, lexicalButton, syntaxButton, semanticButton);
+                                                                    credits, lexicalButton, syntaxButton, semanticButton);
         openButton.addActionListener(actionHandler);
         clearButton.addActionListener(actionHandler);
         credits.addActionListener(actionHandler);
-        switchMode.addActionListener(actionHandler);
         lexicalButton.addActionListener(actionHandler);
         syntaxButton.addActionListener(actionHandler);
         semanticButton.addActionListener(actionHandler);
