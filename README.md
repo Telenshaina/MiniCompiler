@@ -1,8 +1,4 @@
 
-Here’s an updated version of your README file where you can include an image on the header section:
-
-markdown
-Copy code
 <img src="./icon.png" alt="Compiler Logo" width="100" height="100" align="left" style="margin-right: 10px;" />  
 # Mini Java Compiler - Lexical, Syntax, and Semantic Analysis  
 
