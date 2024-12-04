@@ -1,7 +1,6 @@
-<div style="display: flex; align-items: center;">
-    <img src="./icon.png" alt="Mini Compiler Icon" width="50" height="50" style="margin-right: 189px;" />
-    <h1>Mini Java Compiler - Lexical, Syntax, and Semantic Analysis</h1>
-</div>
+# Mini Java Compiler - Lexical, Syntax, and Semantic Analysis
+
+<img src="./icon.png" alt="Mini Compiler Icon" width="80" height="80" align="left" style="margin-right: 15px;" />
 
 Welcome to our **Mini Compiler Project**!  
 
@@ -10,6 +9,8 @@ This project is a lightweight Java-based compiler designed to demonstrate the th
 1. **Lexical Analysis**: Breaking down the source code into meaningful tokens while validating their format.  
 2. **Syntax Analysis**: Ensuring the code adheres to the rules of Java's syntax by validating token order and structure.  
 3. **Semantic Analysis**: Verifying the semantic correctness of declarations, such as type compatibility between variables and their values.  
+
+---
 
 ## Key Features  
 - **Supports Multiple Lines**: Validates multiple Java variable declarations in a single run.  
