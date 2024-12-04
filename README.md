@@ -14,14 +14,10 @@ This project is a lightweight Java-based compiler designed to demonstrate the th
 - **Flexible Input**: Works with or without spaces around operators like `=` and `;`.  
 - **Detailed Error Reporting**: Provides clear feedback for missing semicolons, invalid identifiers, data type mismatches, and more.  
 
-## Why This Project?  
-This mini compiler showcases the foundational processes that power modern programming languages. It’s an educational tool, ideal for understanding how compilers work under the hood while focusing on these essential phases.  
+## How does it works?  
+Example code: 
+int x = 1;  --> passes all the phases (Lexical, Syntax, Semantic).
+x int 1 ; = --> only passes Lexical Analysis Phase.
+int x = 2.0; --> only passes Lexical Analysis and Syntax Analysis.
 
-## How It Works  
-- The **Lexical Analyzer** tokenizes the input and checks for missing or invalid components.  
-- The **Syntax Analyzer** ensures that tokens follow the correct Java syntax.  
-- The **Semantic Analyzer** checks the compatibility of values with their data types.  
 
----
-
-Dive into our codebase to learn more, contribute, or just experiment with this mini compiler! 😊  
