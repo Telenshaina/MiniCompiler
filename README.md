@@ -5,7 +5,7 @@ markdown
 Copy code
 # Mini Java Compiler - Lexical, Syntax, and Semantic Analysis  
 
-![Compiler Logo](icon.png)  
+![Compiler Logo](https://github.com/user-attachments/assets/a7829040-756b-499d-a2d6-fbdb536ce4bb)  
 
 Welcome to our **Mini Compiler Project**!  
 
