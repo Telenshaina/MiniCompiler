@@ -1,4 +1,7 @@
-# <img src="./icon.png" alt="Mini Compiler Icon" width="50" height="50" style="vertical-align: middle; margin-right: 10px;" /> Mini Java Compiler - Lexical, Syntax, and Semantic Analysis  
+<div style="display: flex; align-items: center;">
+    <img src="./icon.png" alt="Mini Compiler Icon" width="100" height="100" style="margin-right: 15px;" />
+    <h1>Mini Java Compiler - Lexical, Syntax, and Semantic Analysis</h1>
+</div>
 
 Welcome to our **Mini Compiler Project**!  
 
