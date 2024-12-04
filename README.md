@@ -4,8 +4,8 @@ Here’s an updated version of your README file where you can include an image o
 markdown
 Copy code
 # Mini Java Compiler - Lexical, Syntax, and Semantic Analysis  
-
-![Compiler Logo](https://github.com/user-attachments/assets/a7829040-756b-499d-a2d6-fbdb536ce4bb)  
+ 
+<img src="[path-to-your-image.jpg](https://github.com/user-attachments/assets/a7829040-756b-499d-a2d6-fbdb536ce4bb)" alt="Compiler Logo" width="100" height="100" align="left" style="margin-right: 10px;" />  
 
 Welcome to our **Mini Compiler Project**!  
 
