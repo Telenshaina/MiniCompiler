@@ -4,6 +4,9 @@
 
 Welcome to our **Mini Compiler Project**!  
 
+
+
+
 This project is a lightweight Java-based compiler designed to demonstrate the three critical phases of compilation:  
 
 1. **Lexical Analysis**: Breaking down the source code into meaningful tokens while validating their format.  
