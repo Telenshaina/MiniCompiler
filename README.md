@@ -1,4 +1,4 @@
-# Mini Java Compiler - Lexical, Syntax, and Semantic Analysis  
+# Mini Java Compiler - Lexical, Syntax, and Semantic Analysis <img src="./icon.png" alt="Mini Compiler Icon" width="100" height="100" />  
 
 Welcome to our **Mini Compiler Project**!  
 
@@ -10,12 +10,12 @@ This project is a lightweight Java-based compiler designed to demonstrate the th
 
 ## Key Features  
 - **Supports Multiple Lines**: Validates multiple Java variable declarations in a single run.  
-- **Java Primitive Data Types**: Handles data types like int, float, double, char, boolean, and String.  
-- **Flexible Input**: Works with or without spaces around operators like = and ;.  
+- **Java Primitive Data Types**: Handles data types like `int`, `float`, `double`, `char`, `boolean`, and `String`.  
+- **Flexible Input**: Works with or without spaces around operators like `=` and `;`.  
 - **Detailed Error Reporting**: Provides clear feedback for missing semicolons, invalid identifiers, data type mismatches, and more.  
 
-## How does it works?  
-Example code: 
-int x = 1;  --> passes all the phases (Lexical, Syntax, Semantic).
-x int 1 ; = --> only passes Lexical Analysis Phase.
-int x = 2.0; --> only passes Lexical Analysis and Syntax Analysis.
+## How does it work?  
+Example code:  
+`int x = 1;`  → passes all the phases (Lexical, Syntax, Semantic).  
+`x int 1 ; =` → only passes Lexical Analysis Phase.  
+`int x = 2.0;` → only passes Lexical Analysis and Syntax Analysis.  
