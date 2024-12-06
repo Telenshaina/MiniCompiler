@@ -47,10 +47,6 @@ public class SyntaxAnalyzer {
 
     // Validate the order of tokens (syntax rules)
     private void validateTokenOrder(List<String> tokens) throws Exception {
-        if (tokens.size() < 4 || !tokens.get(tokens.size() - 1).equals(";")) {
-            throw new Exception("Invalid syntax: Missing semicolon or insufficient tokens.");
-        }
-
         String equalsSign = tokens.get(2);  // "=" should be the third token
 
         // Ensure '=' is present
