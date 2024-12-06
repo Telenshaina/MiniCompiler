@@ -1,39 +1,48 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LexicalAnalyzer {
 
     // Tokenizer function to split input into tokens
     public List<String> tokenize(String input) throws Exception {
-        // Split by spaces or semicolon/equal signs, keeping them as separate tokens
-        String[] split = input.split("\\s+|(?=[=;])|(?<=[=;])");
+        // Use regex to match tokens while respecting quoted strings and special characters
         List<String> tokens = new ArrayList<>();
-        for (String token : split) {
-            if (!token.isBlank()) {
-                tokens.add(token);
-            }
+        String regex = "\"[^\"]*\"|[a-zA-Z_][a-zA-Z0-9_]*|\\d+(\\.\\d+)?[fF]?|[=;]|true|false|'.'";
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
+        java.util.regex.Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            tokens.add(matcher.group());
         }
 
-        // Validate that a semicolon is present
-        if (!tokens.contains(";")) {
-            throw new Exception("Missing semicolon.");
-        }
+        // Print tokens for debugging
+        System.out.println("Tokens: " + tokens);
 
-        // Check for necessary components (data type, identifier, '=', value)
+        // Validate the tokens based on lexical rules
         validateTokens(tokens);
 
-        return tokens;
+        return tokens; // Return tokens without enforcing order or additional constraints
     }
 
-    // Validate the tokens based on lexical rules, without strict order
+    // Validates the tokens based on lexical rules, checking for missing components
     private void validateTokens(List<String> tokens) throws Exception {
         boolean hasDataType = false;
         boolean hasIdentifier = false;
         boolean hasEqualsSign = false;
         boolean hasValue = false;
+        boolean hasSemicolon = false;
 
-        // Iterate through the tokens to check if the necessary components exist
+        // Ensure exactly 5 tokens
+        if (tokens.size() != 5) {
+            throw new Exception("Your variable declaration is incomplete.");
+        }
+
+        // Track tokens found, but allow flexibility in order
         for (String token : tokens) {
-            if (isValidDataType(token)) {
+            System.out.println("Processing token: " + token); // Debugging output
+            if (token.equals(";")) {
+                hasSemicolon = true;
+            } else if (isValidDataType(token)) {
                 hasDataType = true;
             } else if (isValidIdentifier(token)) {
                 hasIdentifier = true;
@@ -41,10 +50,20 @@ public class LexicalAnalyzer {
                 hasEqualsSign = true;
             } else if (isValidValue(token)) {
                 hasValue = true;
+            } else {
+                // If we encounter a token that is not one of the valid types, it's invalid
+                throw new Exception("Unexpected token: " + token);
             }
         }
 
-        // Ensure all necessary components are found
+        // Debugging output for component checks
+        System.out.println("hasDataType: " + hasDataType);
+        System.out.println("hasIdentifier: " + hasIdentifier);
+        System.out.println("hasEqualsSign: " + hasEqualsSign);
+        System.out.println("hasValue: " + hasValue);
+        System.out.println("hasSemicolon: " + hasSemicolon);
+
+        // Ensure that all necessary components are found
         if (!hasDataType) {
             throw new Exception("Missing data type.");
         }
@@ -57,25 +76,30 @@ public class LexicalAnalyzer {
         if (!hasValue) {
             throw new Exception("Missing value.");
         }
+        if (!hasSemicolon) {
+            throw new Exception("Missing semicolon.");
+        }
     }
 
     // Validates the data type
     private boolean isValidDataType(String dataType) {
-        return dataType.matches("int|String|double|float|char|boolean");
+        // Added "byte" and "short" along with existing types
+        return dataType.matches("int|String|double|float|char|boolean|byte|short");
     }
 
     // Validates the identifier
     private boolean isValidIdentifier(String identifier) {
-        return identifier.matches("[a-zA-Z_][a-zA-Z0-9_]*");
+        return identifier.matches("[a-zA-Z_][a-zA-Z0-9_]*") &&
+               !identifier.equals("true") &&
+               !identifier.equals("false"); // Ensure it's not a reserved value
     }
 
     // Validates the value based on the data type
     private boolean isValidValue(String value) {
-        // Check if the value matches a valid pattern for any type
-        return value.matches("\\d+") ||  // Integer
-               value.matches("\\d+(\\.\\d+)?") ||  // Double/Float
-               value.matches("'.'") ||  // Character
-               value.matches("\".*\"") ||  // String
-               value.matches("true|false");  // Boolean
+        return value.matches("\\d+") || // Integer
+               value.matches("\\d+(\\.\\d+)?[fF]?") || // Float/Double
+               value.matches("'.'") || // Character
+               value.matches("\"[^\"]*\"") || // String with spaces
+               value.equals("true") || value.equals("false"); // Boolean (true/false)
     }
 }

@@ -61,18 +61,43 @@ public class SemanticAnalyzer {
     private boolean isValidValueForType(String dataType, String value) {
         switch (dataType) {
             case "int":
-                return value.matches("\\d+");
+                return value.matches("\\d+"); // Integer literals
+            case "byte":
+                return value.matches("\\d+") && isByteValue(value);
+            case "short":
+                return value.matches("\\d+") && isShortValue(value);
             case "double":
+                return value.matches("\\d+(\\.\\d+)?"); // Double values
             case "float":
-                return value.matches("\\d+(\\.\\d+)?");
+                return value.matches("\\d+(\\.\\d+)?[fF]"); // Float literals with 'f' or 'F'
             case "char":
                 return value.matches("'.'"); // Single character in single quotes
             case "String":
                 return value.matches("\".*\""); // Enclosed in double quotes
             case "boolean":
-                return value.matches("true|false");
+                return value.matches("true|false"); // Boolean values
             default:
                 return false;
+        }
+    }
+
+    // Check if the value is within the range of byte
+    private boolean isByteValue(String value) {
+        try {
+            int intValue = Integer.parseInt(value);
+            return intValue >= -128 && intValue <= 127;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    // Check if the value is within the range of short
+    private boolean isShortValue(String value) {
+        try {
+            int intValue = Integer.parseInt(value);
+            return intValue >= -32768 && intValue <= 32767;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }
