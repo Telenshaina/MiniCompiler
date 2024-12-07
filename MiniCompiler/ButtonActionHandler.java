@@ -149,11 +149,12 @@ public class ButtonActionHandler implements ActionListener {
         // Check if there was an error in the analysis
         if (analysisResult.contains("SYNTAX ANALYSIS FAILED")) {
             resultArea.setForeground(Color.RED);  // Set text color to red on error
+            semanticButton.setEnabled(false);
         } else {
             resultArea.setForeground(new Color(0x129F57));  // Set text color to green on success
+            semanticButton.setEnabled(true); // Enable semantic analysis
         }
         syntaxButton.setEnabled(false);  // Disable syntax button after analysis
-        semanticButton.setEnabled(true); // Enable semantic analysis
     }
 
     // Perform semantic analysis
